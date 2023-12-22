@@ -3,8 +3,7 @@ import { useAuth } from '../../context/auth';
 import { NavLink, Link } from "react-router-dom";
 import "../../styles/Navbar.scss"
 import logo from "../../img/logo.jpg"
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'; 
 const Navbar = () => {
 
     const [auth, setAuth] = useAuth();

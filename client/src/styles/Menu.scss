@@ -18,7 +18,8 @@
         display: none;
       }
     }
- 
+
+    
     .listItem {
       display: flex;
       align-items: center;
@@ -30,6 +31,11 @@
         background-color: $soft-bg;
         color: #fff
       }
+      .menu-icon{
+        color: white;
+        background-color: white;
+      }
+   
 
       .listItemTitle{
         @include lg{

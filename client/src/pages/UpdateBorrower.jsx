@@ -33,7 +33,7 @@ const UpdateBorrower = () => {
             
           setFormData({
             ...formData,
-            id_solicitante: data.id_solicitante,
+            id_solicitante: data.id_solicitante,  
              nombre: data.nombre,
              apellido: data.apellido,
              cedula: data.cedula,
@@ -47,7 +47,7 @@ const UpdateBorrower = () => {
         console.log(error);
       }
     };
-
+  
     
     useEffect(() => {
         getSingleBook()

@@ -8,7 +8,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 
 
 
-const Login = () => {
+const RecuperarClave = () => {
   const [auth, setAuth] = useAuth();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -60,7 +60,7 @@ const Login = () => {
             <div className="card shadow-2-strong" style={{ borderRadius: '1rem' }}>
               <div className="card-body p-5 ">
               
-                <h3 className="mb-5 text-center">  <strong>UPTNMLS</strong>  <br/>  
+                <h3 className="mb-5 text-center">  <strong>Recuperar clave</strong>  <br/>  
                 </h3>
                 <form onSubmit={handleSubtmit}>
                 <div className="form-outline mb-4">
@@ -73,23 +73,17 @@ const Login = () => {
                 {emailError && (
                       <small className="text-danger">{emailError}</small>
                     )}
-                <div className="form-outline mb-4">
-                   <label className="form-label text-muted" htmlFor="typePasswordX-2">Clave</label>
-                  <input type="password" id="typePasswordX-2" placeholder='Ingresar clave'  autoFocus
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)} className="form-control form-control-lg" />
+                
                  
-                </div>
-                 
-                <button className="btn btn-primary btn-lg btn-block" type="submit">Ingresar al sistema</button>
+                <button className="btn btn-success btn-lg btn-block" type="submit">Enviar email</button>
 
                 </form>
                 
                 <hr className="my-4" />
                  
-               <Link to={"/recuperar-clave"}>
-               <button className="btn btn-lg btn-block btn-danger mb-2" type="submit">
-                  <i className="fab fa-facebook-f me-2"></i> Recuperar clave
+               <Link to={"/"}>
+               <button className="btn btn-lg btn-block btn-primary mb-2" type="submit">
+                  <i className="fab fa-facebook-f me-2"></i> Volver
                 </button>
                </Link> 
               </div>
@@ -101,4 +95,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default RecuperarClave

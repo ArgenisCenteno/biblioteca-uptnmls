@@ -88,6 +88,7 @@ const CreateProject = () => {
             <option value="Trayecto 2">Trayecto 2</option>
             <option value="Trayecto 3">Trayecto 3</option>
             <option value="Trayecto 4">Trayecto 4</option>
+            <option value="Trayecto 5">Trayecto 5</option>
            </select>
         </div> 
       </div>

@@ -2,7 +2,7 @@ import express from "express"
 import { createBook, deleteBookByCode, getAllBooks, getAllBooksAndCopies, getBookByCode, getBookByPnf, getBookByRes, updateBook } from "../controllers/bookController.js";
 
 const router =  express.Router();
-
+  
 router.post("/create-book", createBook);
 router.put("/update-book", updateBook)
 router.get("/getAllBooks", getAllBooks)

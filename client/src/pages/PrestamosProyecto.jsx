@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles'; 
 import { DataGrid, esES } from '@mui/x-data-grid'; 
 import axios from "axios"
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2' 
+import ReporteProyectos from './ReporteProyectos';
 
 const PrestamosProyecto = () => {
     const [project, setProject] = useState([]);
@@ -25,7 +26,7 @@ const PrestamosProyecto = () => {
             if(data){
               setProject(data)
             } 
-    
+           
             console.log(data)
           
         } catch (error) {
@@ -91,24 +92,26 @@ const PrestamosProyecto = () => {
       const columns = [
         { field: 'id_prestamo_proyecto', headerName: 'ID', width: 70 },
         { field: 'fecha_prestamo', headerName: 'Fecha', width: 130 },
-        { field: 'nombre_apellido_solicitante', headerName: 'Solicitante', width: 130 },
+        { field: 'nombre', headerName: 'Nombre', width: 90 },
+        { field: 'apellido', headerName: 'Apellido', width: 90 },
         {
           field: 'pnf_solicitante',
-          headerName: 'PNF solicitante', 
-          width: 140,
+          headerName: 'PNF', 
+          width: 120,
         },
         {
           field: 'trayecto_solicitante',
-          headerName: 'Trayecto solicitante',
-          width: 180
+          headerName: 'Trayecto',
+          width: 90
         },
-         
-         
+        { field: 'estado_prestamo_proyecto', headerName: 'Estado', width: 130 },
+        { field: 'codigo_ejemplar_proyecto', headerName: 'Ejemplar', width: 190 },
+        { field: 'titulo', headerName: 'Proyecto', width: 130 },
         
         {
           field: 'ver',
           headerName: 'Acciones',
-          width: 180,
+          width: 160,
           renderCell: (params) => (
             <div>
              <Link to={`/sistema/detalles-proyecto/${params.row.id_prestamo_proyecto}`}>
@@ -129,8 +132,8 @@ const PrestamosProyecto = () => {
     <Layout>
     <div className='bookTableHeader'>
       <div className='title'>
-          <h2>Prestamos de Libros</h2>
-          
+          <h2>Prestamos de Proyectos</h2>
+        <ReporteProyectos/>
       </div>
      <div className='btnAddBook'>
       <Link to={"/sistema/prestar-proyecto"}>

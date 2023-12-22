@@ -5,7 +5,7 @@ import axios from "axios";
 const AuthContext = createContext();
 
 // Proveedor de autenticación
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {  
   const [auth, setAuth] = useState({
     user: null,
     token: "",

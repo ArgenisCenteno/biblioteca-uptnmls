@@ -89,7 +89,41 @@ export const createBorrowProject = async (req, res) => {
   export const getAllBorrowBook = async (req, res) => {
     try {
       // Consulta para obtener todos los libros ordenados por título
-      const query = "SELECT pp.id_prestamo_proyecto, pp.fecha_prestamo, pp.fecha_devolucion, pp.id_solicitante AS id_solicitante_prestamo, CONCAT(s.nombre, ' ', s.apellido) AS nombre_apellido_solicitante, s.cedula AS cedula_solicitante, s.sexo AS sexo_solicitante, s.pnf AS pnf_solicitante, s.trayecto AS trayecto_solicitante, s.ocupacion AS ocupacion_solicitante, s.prestamos AS prestamos_solicitante FROM prestamo_proyecto AS pp JOIN solicitante AS s ON pp.id_solicitante = s.id_solicitante ORDER BY pp.fecha_prestamo DESC ";
+      const query = `SELECT pp.id_prestamo_proyecto,
+      pp.fecha_prestamo,
+      pp.fecha_devolucion,
+      pp.id_solicitante,
+      pp.estado AS estado_prestamo_proyecto,
+      pej.id_ejemplar_proyecto,
+      pej.codigo_ejemplar AS codigo_ejemplar_proyecto,
+      pej.id_proyecto,
+      pej.estado AS estado_ejemplar_proyecto,
+      ppj.id_proyecto_prestado,
+      ppj.id_ejemplar,
+      p.id_proyecto,
+      p.titulo,
+      p.autor,
+      p.consultas,
+      p.pnf,
+      p.trayecto AS trayecto_proyecto,
+      p.fecha_presentacion,
+      p.fecha_registro AS fecha_registro_proyecto,
+      p.estado AS estado_proyecto,
+      s.id_solicitante,
+      s.nombre,
+      s.apellido,
+      s.cedula,
+      s.sexo AS sexo_solicitante,
+      s.pnf AS pnf_solicitante,
+      s.trayecto AS trayecto_solicitante,
+      s.ocupacion,
+      s.prestamos AS prestamos_solicitante
+  FROM proyecto_prestado AS ppj
+  INNER JOIN proyecto_ejemplar AS pej ON ppj.id_ejemplar = pej.id_ejemplar_proyecto
+  INNER JOIN prestamo_proyecto AS pp ON ppj.id_prestamo = pp.id_prestamo_proyecto
+  INNER JOIN proyecto AS p ON pej.id_proyecto = p.id_proyecto
+  INNER JOIN solicitante AS s ON pp.id_solicitante = s.id_solicitante
+   `;
       
       db.query(query, (err, data) => {
         if (err) return res.status(500).json(err);
@@ -274,7 +308,42 @@ export const finalizarPrestamo = async (req, res) => {
       }
   
       // Query loans within the date range
-      const query = "SELECT * FROM prestamo WHERE fecha_prestamo BETWEEN ? AND ?";
+      const query = `SELECT pp.id_prestamo_proyecto,
+      pp.fecha_prestamo,
+      pp.fecha_devolucion,
+      pp.id_solicitante,
+      pp.estado AS estado_prestamo_proyecto,
+      pej.id_ejemplar_proyecto,
+      pej.codigo_ejemplar AS codigo_ejemplar_proyecto,
+      pej.id_proyecto,
+      pej.estado AS estado_ejemplar_proyecto,
+      ppj.id_proyecto_prestado,
+      ppj.id_ejemplar,
+      p.id_proyecto,
+      p.titulo,
+      p.autor,
+      p.consultas,
+      p.pnf,
+      p.trayecto AS trayecto_proyecto,
+      p.fecha_presentacion,
+      p.fecha_registro AS fecha_registro_proyecto,
+      p.estado AS estado_proyecto,
+      s.id_solicitante,
+      s.nombre,
+      s.apellido,
+      s.cedula,
+      s.sexo AS sexo_solicitante,
+      s.pnf AS pnf_solicitante,
+      s.trayecto AS trayecto_solicitante,
+      s.ocupacion,
+      s.prestamos AS prestamos_solicitante
+  FROM proyecto_prestado AS ppj
+  INNER JOIN proyecto_ejemplar AS pej ON ppj.id_ejemplar = pej.id_ejemplar_proyecto
+  INNER JOIN prestamo_proyecto AS pp ON ppj.id_prestamo = pp.id_prestamo_proyecto
+  INNER JOIN proyecto AS p ON pej.id_proyecto = p.id_proyecto
+  INNER JOIN solicitante AS s ON pp.id_solicitante = s.id_solicitante
+  WHERE ? AND ?`;
+
   
       db.query(query, [fromDate, toDate], (err, data) => {
         if (err) {

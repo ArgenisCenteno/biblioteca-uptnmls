@@ -108,7 +108,7 @@ export const updateBook = async (req, res) => {
       pnf || data[0].pnf,
       fecha_publicacion || data[0].fecha_publicacion,
       id_libro
-    ];
+    ];  
      
       db.query(updateQuery, updateValues, (err, result) => {
         if (err) {
@@ -271,4 +271,4 @@ export const deleteBookByCode = async (req, res) => {
       res.status(500).json({ message: "Error al eliminar el libro" });
     }
   };
-  
+ 

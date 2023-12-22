@@ -6,43 +6,44 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataGrid, esES } from '@mui/x-data-grid'; 
 import axios from "axios"
 import Swal from 'sweetalert2'
-import ReporteLibros from './ReporteLibros';
 
-const Project = () => {
-  const [project, setProject] = useState([]);
+const Usuarios = () => {
 
-  const theme = createTheme(
-    {
-      palette: {
-        primary: { main: '#1976d2' },
-      },
-    },
-    esES,
-  );
+    const [reservaciones, setReservaciones] = useState([]);
+    const theme = createTheme(
+        {
+          palette: {
+            primary: { main: '#1976d2' },
+          },
+        },
+        esES,
+      );
 
 
-  const getAllBorrowProject = async() =>{
-    try {
-      const {data} = await axios.get(`${apiKey}/api/borrow-book/getAllBoorwBook`)
-        if(data){
-          setProject(data)
-        } 
+      const getAllReservaction = async() =>{
+        try {
+          const {data} = await axios.get(`${apiKey}/api/users/traer-usuarios`)
+            if(data){
+              setReservaciones(data)
+            } 
+    
+            console.log(data)
+          
+        } catch (error) {
+          console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ha ocurrido un error al traer los proyectos' 
+          })
+        }
+    
+      }
 
-        console.log(data)
+
       
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Ha ocurrido un error al traer los proyectos' 
-      })
-    }
-
-  }
-
   useEffect(() => {
-    getAllBorrowProject()
+    getAllReservaction()
   }, [])
 
   const handleDelete = async (id) => {
@@ -61,22 +62,22 @@ const Project = () => {
     // Si el usuario confirma la eliminación, realizar la petición
     if (confirmResult.isConfirmed) {
       try {
-        const { data } = await axios.delete(`${apiKey}/api/borrow-book/deleteBorrowBookByCode/${id}`);
+        const { data } = await axios.delete(`${apiKey}/api/users/eliminar-usuario/${id}`);
         if (data) {
           // Si la petición tiene éxito, mostrar un mensaje de éxito
           Swal.fire({
             icon: 'success',
-            title: 'Libro eliminado',
+            title: 'Usuario eliminado',
             text: data.message, // Puedes usar el mensaje que devuelve la petición
           });
-          getAllBorrowProject()
+          getAllReservaction()
           // Aquí puedes realizar cualquier otra acción que necesites después de la eliminación
         } else {
           // Si la petición no tiene éxito, mostrar un mensaje de error
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Hubo un error al eliminar el libro',
+            text: 'Hubo un error al eliminar la reservación',
           });
         }
       } catch (error) {
@@ -84,55 +85,40 @@ const Project = () => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Hubo un error inesperado al eliminar el libro',
+          text: 'Hubo un error inesperado la reservación',
         });
       }
     }
   };
 
   const columns = [
-    { field: 'id_prestamo', headerName: 'ID', width: 70 },
-    { field: 'fecha_prestamo', headerName: 'Fecha', width: 130 },
-    { field: 'nombre_solicitante', headerName: 'Nombre', width: 90 },
-    { field: 'apellido_solicitante', headerName: 'Apellido', width: 90 },
+    { field: 'id_usuario', headerName: 'ID', width: 60 },
+    { field: 'nombre', headerName: 'Nombre', width: 140 },
+    { field: 'apellido', headerName: 'Apellido', width: 190 },
     {
-      field: 'pnf_solicitante',
-      headerName: 'PNF', 
-      width: 120,
+      field: 'email',
+      headerName: 'Email', 
+      width: 190,
     },
     {
-      field: 'trayecto_solicitante',
-      headerName: 'Trayecto',
-      width: 90
-    },
-    {
-      field: 'codigo_ejemplar',
-      headerName: 'Ejemplar',
-      width: 160
-    },
-     
-    {
-      field: 'titulo',
-      headerName: 'Titulo',
-      width: 190
-    },
-    {
-      field: 'estado',
-      headerName: 'Estado',
-      width: 120
-    },
+      field: 'cedula',
+      headerName: 'Cédula',
+      width: 180
+    }, 
+ 
+    
     {
       field: 'ver',
       headerName: 'Acciones',
-      width: 160,
+      width: 180,
       renderCell: (params) => (
         <div>
-         <Link to={`/sistema/detalles-proyecto/${params.row.id_prestamo}`}>
+         <Link to={`/sistema/usuario/${params.row.id_usuario}`}>
           <button  className='btn btn-primary mr-2'>Ver</button>
         </Link>
          
         <button  className='btn btn-danger ml-2'  onClick={() => {
-                          handleDelete(params.row.id_prestamo);
+                          handleDelete(params.row.id_usuario);
                         }}>Eliminar</button>
       
         </div>
@@ -140,16 +126,17 @@ const Project = () => {
       ),
     },
   ];
+
   return (
     <Layout>
     <div className='bookTableHeader'>
       <div className='title'>
-          <h2>Prestamos de Libros</h2>
-        <ReporteLibros/>  
+          <h2>Usuarios</h2>
+          
       </div>
      <div className='btnAddBook'>
-      <Link to={"/sistema/prestar-libro"}>
-       <button className='btn btn-primary'>Realizar prestamo</button>
+      <Link to={"/sistema/crear-usuario"}>
+       <button className='btn btn-primary'>Registrar usuario</button>
       </Link>
       
      </div>
@@ -158,19 +145,18 @@ const Project = () => {
      <div style={{ width: '100%' }}>
  <ThemeProvider theme={theme}> 
 <DataGrid
-  rows={project}
+  rows={reservaciones}
   columns={columns}
   pagination
   pageSize={5} 
   rowsPerPage={12}
   localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-  getRowId={(row) => row.id_prestamo}
+  getRowId={(row) => row.id_usuario}
 />
 </ThemeProvider > 
 </div>
-
-  </Layout>
-  )  
+</Layout>
+  )
 }
 
-export default Project
+export default Usuarios

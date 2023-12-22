@@ -21,16 +21,12 @@ const Menu = () => {
         <div className="item"  >
           <span className="title">General</span>
            
-            <Link to={""} className="listItem"  > 
-              <GridViewIcon className='menu-icon'/>
+            <Link to={"/sistema/inicio"} className="listItem"  > 
+              <GridViewIcon className='menu-icon' />
               <span className="listItemTitle">Inicio</span>
             </Link>
-
-            <Link to={""} className="listItem"  >
-            <AccountBoxIcon className='menu-icon'/>
-              <span className="listItemTitle">Perfil</span>
-            </Link>
-            <Link to={""} className="listItem"  >
+ 
+            <Link to={"/sistema/usuarios"} className="listItem"  >
             <PeopleAltIcon className='menu-icon'/>
               <span className="listItemTitle">Usuarios</span>
             </Link>
@@ -58,28 +54,15 @@ const Menu = () => {
               <span className="listItemTitle">Prestamo de Libros</span>
             </Link>
             <Link to={"/sistema/prestamos-proyectos"} className="listItem"  >
-            <CalendarMonthIcon className='menu-icon'/>
+            <CalendarMonthIcon className='menu-icon'/> 
               <span className="listItemTitle">Prestamos de proyecto</span>
             </Link>
-        </div>
-        <div className="item"  >
-          <span className="title">Reportes</span>
-           
-            <Link to={""} className="listItem"  >
-            <AssessmentIcon className='menu-icon'/>
-              <span className="listItemTitle">Libros</span>
-            </Link>
-
-            <Link to={""} className="listItem"  >
-            <DescriptionIcon className='menu-icon'/>
-              <span className="listItemTitle">Proyectos</span>
-            </Link>
-            <Link to={""} className="listItem"  >
-            <TextSnippetIcon className='menu-icon'/>
+            <Link to={"/sistema/reservaciones"} className="listItem"  >
+            <CalendarMonthIcon className='menu-icon'/> 
               <span className="listItemTitle">Reservaciones</span>
             </Link>
-        
         </div>
+        
     </div>
   )
 }

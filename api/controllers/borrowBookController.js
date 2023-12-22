@@ -89,7 +89,28 @@ export const createBorrowBook = async (req, res) => {
   export const getAllBorrowBook = async (req, res) => {
     try {
       // Consulta para obtener todos los libros ordenados por título
-      const query = "SELECT * FROM prestamo ORDER BY id_prestamo";
+      const query = `SELECT 
+      P.id_prestamo,
+      P.fecha_prestamo,
+      P.estado,
+      P.fecha_devolucion,
+      S.nombre AS nombre_solicitante,
+      S.apellido AS apellido_solicitante,
+      S.cedula AS cedula_solicitante,
+      S.sexo AS sexo_solicitante,
+      S.pnf AS pnf_solicitante,
+      S.trayecto AS trayecto_solicitante,
+      S.ocupacion AS ocupacion_solicitante,
+      E.codigo_ejemplar, 
+      L.titulo, 
+      L.autor, 
+      L.editorial, 
+      L.edicion
+    FROM prestamo P
+    JOIN solicitante S ON P.id_solicitante = S.id_solicitante
+    JOIN ejemplar_prestado EP ON P.id_prestamo = EP.id_prestamo
+    JOIN ejemplar E ON EP.id_ejemplar = E.id_ejemplar
+    JOIN libro L ON E.id_libro = L.id_libro`;
       
       db.query(query, (err, data) => {
         if (err) return res.status(500).json(err);
@@ -242,8 +263,32 @@ export const getBorrowBookByCode = async (req, res) => {
           return res.status(400).json({ message: "Parametro incorrecto" });
       }
   
-      // Query loans within the date range
-      const query = "SELECT * FROM prestamo WHERE fecha_prestamo BETWEEN ? AND ?";
+      // Query loans within the date range, joining with the `solicitante` table to get the full name
+      const query = `
+      SELECT 
+      P.id_prestamo,
+      P.fecha_prestamo,
+      P.fecha_devolucion,
+      S.nombre AS nombre_solicitante,
+      S.apellido AS apellido_solicitante,
+      S.cedula AS cedula_solicitante,
+      S.sexo AS sexo_solicitante,
+      S.pnf AS pnf_solicitante,
+      S.trayecto AS trayecto_solicitante,
+      S.ocupacion AS ocupacion_solicitante,
+      E.codigo_ejemplar, 
+      L.titulo, 
+      L.autor, 
+      L.editorial, 
+      L.edicion
+    FROM prestamo P
+    JOIN solicitante S ON P.id_solicitante = S.id_solicitante
+    JOIN ejemplar_prestado EP ON P.id_prestamo = EP.id_prestamo
+    JOIN ejemplar E ON EP.id_ejemplar = E.id_ejemplar
+    JOIN libro L ON E.id_libro = L.id_libro
+    WHERE P.fecha_prestamo BETWEEN ? AND ?;
+    
+      `;
   
       db.query(query, [fromDate, toDate], (err, data) => {
         if (err) {
@@ -262,6 +307,7 @@ export const getBorrowBookByCode = async (req, res) => {
       res.status(500).json({ message: "Error fetching loans within the specified time interval" });
     }
   };
+  
   export const getReturnBooksByDateParam = async (req, res) => {
     try {
       const { interval } = req.params;

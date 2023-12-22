@@ -4,7 +4,8 @@ import Layout from '../components/ui/Layout.jsx'
 import Swal from 'sweetalert2';
 import axios from "axios"
 import { Link } from 'react-router-dom';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid'; 
+import ReportProject from './ReporteProyectos.jsx';
 
 const Project = () => {
   const [project, setProject] = useState([]);
@@ -129,7 +130,7 @@ const Project = () => {
       <div className='bookTableHeader'>
         <div className='title'>
             <h2>Proyectos</h2>
-            
+          
         </div>
        <div className='btnAddBook'>
         <Link to={"/sistema/agregar-proyecto"}>
